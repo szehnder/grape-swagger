@@ -19,23 +19,23 @@ module Grape
         routes.each do |route|
           route_path = route.route_path
           route_split = route_path.split(/^.*?#{route.route_prefix.to_s}/).last
-  #        next unless route_match
+          next unless route_split
           route_match = route_split.match('\/([\w|-]*?)[\.\/\(]') || route_split.match('\/([\w|-]*)')
- #         next unless route_match
+          next unless route_match
          if route_match.to_s != '/'
           resource = route_match.captures.first
         else
           resource = route_path.split('/').last
         end
-#          next if resource.empty?
+          next if resource.empty?
           resource.downcase!
           @combined_routes[resource] ||= []
-   #       next if documentation_class.hide_documentation_path && route.route_path.include?(documentation_class.mount_path)
+          next if documentation_class.hide_documentation_path && route.route_path.include?(documentation_class.mount_path)
           @combined_routes[resource] << route
-          puts "route_path: #{route_path}"
-          puts "~ route_split: #{route_split}"
-          puts "~ resource: #{resource}"
-          puts "~ route_match: #{route_match}"
+          # puts "route_path: #{route_path}"
+          # puts "~ route_split: #{route_split}"
+          # puts "~ resource: #{resource}"
+          # puts "~ route_match: #{route_match}"
         end
 
         @combined_namespaces = {}
